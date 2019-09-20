@@ -14,27 +14,32 @@ const NewForm = ({values, errors, touched, status}) => {
 
     return(
 
-    <div>
+    <div className = "container">
         <Form>
-            <Field type= "text" name="name" placeholder="name"/>
-            {touched.name && errors.name && (
-                <p>{errors.name}</p>
-            )}
-            <Field type="text" name="email" placeholder="email"/>
-            {touched.email && errors.email && (
-                <p>{errors.email}</p>
-            )}
-            <Field type="password" name="password" placeholder="password"/>
-            {touched.password && errors.password && (
-                <p>{errors.password}</p>
-            )}
-            <label>
-                <Field type ="checkbox" name="termsOfService" checked={values.termsOfService}/>
-            </label>
+            <div className = "maincontainer">
+                <Field className = "container1" type= "text" name="name" placeholder="name"/>
+                {touched.name && errors.name && (
+                    <p>{errors.name}</p>
+                )}
+                <Field className="container2" type="text" name="email" placeholder="email"/>
+                {touched.email && errors.email && (
+                    <p>{errors.email}</p>
+                )}
+                <Field className="container3" type="password" name="password" placeholder="password"/>
+                {touched.password && errors.password && (
+                    <p>{errors.password}</p>
+                )}
+            </div>
+            <div className="terms">
+            <p>Terms and Conditions</p>
+                <label>
+                    <Field type ="checkbox" name="termsOfService" checked={values.termsOfService}/>
+                </label>
+            </div>
             <button>Submit</button>
         </Form>
         {people.map(e => (
-        <ul key={e.id}>
+        <ul className = "list"key={e.id}>
           <li>Name:{e.name}</li>
           <li>Email: {e.email}</li>
           <li>Password: private info! </li>
@@ -56,7 +61,10 @@ const FormikNewForm = withFormik({
         name: Yup.string().required("You must enter your name before contuining"),
         email: Yup.string().required("Email must be entered"),
         password: Yup.string().required("Password must be entered"),
-        termsOfService: Yup.string(true).required('')
+        termsOfService: Yup
+        .boolean()
+        .oneOf([true],'You must agree to the terms of service!')
+       
     }),
     handleSubmit(values, { setStatus }){
     axios
@@ -68,10 +76,11 @@ const FormikNewForm = withFormik({
     .catch(err => console.log(err.e));
 
 
+
 }
 
 })(NewForm);
-
+console.log(FormikNewForm)
 export default FormikNewForm;
 
 
